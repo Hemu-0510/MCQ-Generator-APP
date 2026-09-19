@@ -5,17 +5,9 @@ import re
 from dotenv import load_dotenv
 from openai import OpenAI
 
-# ---------------------------------------
-# Load Hugging Face token
-# ---------------------------------------
-
 load_dotenv()
 
 HF_TOKEN = os.getenv("HF_TOKEN")
-
-# ---------------------------------------
-# Page configuration
-# ---------------------------------------
 
 st.set_page_config(
     page_title="MCQ Generator",
@@ -23,26 +15,15 @@ st.set_page_config(
     layout="wide"
 )
 
-# ---------------------------------------
-# Check token
-# ---------------------------------------
-
 if not HF_TOKEN:
     st.error("Hugging Face token not found.")
     st.stop()
 
-# ---------------------------------------
-# Hugging Face client
-# ---------------------------------------
 
 client = OpenAI(
     base_url="https://router.huggingface.co/v1",
     api_key=HF_TOKEN
 )
-
-# ---------------------------------------
-# Title
-# ---------------------------------------
 
 st.title("📝 AI MCQ Generator")
 
@@ -52,10 +33,6 @@ st.write(
 )
 
 st.divider()
-
-# ---------------------------------------
-# Sidebar
-# ---------------------------------------
 
 with st.sidebar:
 
@@ -80,10 +57,6 @@ with st.sidebar:
         "Generate MCQs",
         use_container_width=True
     )
-
-# ---------------------------------------
-# Generate MCQs
-# ---------------------------------------
 
 if generate:
 
@@ -166,10 +139,6 @@ Rules:
                 st.error("Unable to generate MCQs.")
                 st.code(str(e))
 
-# ---------------------------------------
-# Display questions
-# ---------------------------------------
-
 if "questions" in st.session_state:
 
     questions = st.session_state.questions
@@ -190,10 +159,6 @@ if "questions" in st.session_state:
 
         st.divider()
 
-    # -----------------------------------
-    # Submit quiz
-    # -----------------------------------
-
     if st.button("Submit Quiz", type="primary"):
 
         score = 0
@@ -210,10 +175,6 @@ if "questions" in st.session_state:
         st.success(
             f"Your Score: {score} / {len(questions)}"
         )
-
-    # -----------------------------------
-    # Show answers
-    # -----------------------------------
 
     if st.session_state.get("submitted", False):
 
@@ -240,10 +201,6 @@ if "questions" in st.session_state:
                 )
 
             st.info(q["explanation"])
-
-# ---------------------------------------
-# Footer
-# ---------------------------------------
 
 st.divider()
 
